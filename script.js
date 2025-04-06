@@ -6,14 +6,6 @@ let message = "";
 let messageEl = document.getElementById("message-el");
 let sumEl = document.getElementById("sum-el");
 let cardsEl = document.getElementById("cards-el");
-let player = {
- let name: = "name",
- chips: 0 
-};
-let playerName = "Will be added soon " + name;
-let playerChips = chips;
-let playerEl = document.getElementById("player-el");
-playerEl.textContent = playerName + ": $" + playerChips;
 function getRandomCard() {
     let randomCard = Math.floor(Math.random()*11) + 1;
     if (randomCard > 10) {
@@ -59,5 +51,4 @@ function newCard() {
     renderGame();  
     }
 }
-
 
