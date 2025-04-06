@@ -6,6 +6,9 @@ let message = "";
 let messageEl = document.getElementById("message-el");
 let sumEl = document.getElementById("sum-el");
 let cardsEl = document.getElementById("cards-el");
+//dealer
+let dealerCards = [];
+let dealerSum = 0;
 function getRandomCard() {
     let randomCard = Math.floor(Math.random() * 13) + 1; // Simulating all possible cards
     if (randomCard > 10) {
@@ -19,18 +22,28 @@ function getRandomCard() {
 
 function startGame() {
     isAlive = true;
+    //player
     let firstCard = getRandomCard();
     let secondCard = getRandomCard();
     cards = [firstCard, secondCard];
     sum = firstCard + secondCard;
+    //Dealer
+    let dealerFirstCard = getRandomCard();
+    let dealerSecondCard = getRandomCard();
+    dealerCards = [dealerFirstCard, dealerSecondCard];
+    dealerSum = dealerFirstCard + dealerSecondCard;
     renderGame();
 }
 function renderGame() {
-   cardsEl.textContent = "Cards: ";
+   //player
+    cardsEl.textContent = "Cards: ";
     for(let i = 0; i < cards.length; i++) {
        cardsEl.textContent += cards[i] + ' ';
     }
     sumEl.textContent = "Sum: " + sum;
+    //Dealer
+    let dealerEl = document.getElementById("dealer-el");
+    dealerEl.textContent = "Dealer's Cards: " + dealerCards[0] + ", hidden";
     if (sum <= 20) {
         message = "Do you want to draw a new card?";
     } else if (sum === 21) {
@@ -57,8 +70,32 @@ function setAceValue(value) {
 renderGame(); 
 }
 
+function dealerPlay() {
+    while (dealerSum < 17) {
+        let card = getRandomCard();
+        dealerCards.push(card);
+    dealerSum += card;
+}
+    let dealerEl = document.getElementById("dealer-el");
+    dealerEl.textContent = "Dealer's Cards: " + dealerCards.join(" ");
+    let dealerSumEl = document.getElementById("dealerSum-el");
+    dealerSumEl.textContent = "Dealer's Sum: " + dealerSum;
+determineWinner();
+}
+function determineWinner() {
+    if (dealerSum > 21) {
+        message = "Dealer busted! You win";
+    } else if (sum > dealerSum) {
+        message = "You win";
+    } else if (sum < dealerSum) {
+        message = "Dealer wins!";
+    } else {
+        message = "It's a tie";
+    }
+    messageEl.textContent = message;
+}
 
-function newCard() {
+    function newCard() {
     if (isAlive === true && hasBlackJack === false) {
       let card = getRandomCard();
         if (card === 1) {
@@ -70,3 +107,8 @@ function newCard() {
     renderGame();  
     }
 }
+function playerStand() {
+    dealerPlay();
+}
+
+
