@@ -35,15 +35,22 @@ function startGame() {
     renderGame();
 }
 function renderGame() {
-   //player
+    // Player Cards
     cardsEl.textContent = "Cards: ";
-    for(let i = 0; i < cards.length; i++) {
-       cardsEl.textContent += cards[i] + ' ';
+    for (let i = 0; i < cards.length; i++) {
+        cardsEl.textContent += cards[i] + " ";
     }
     sumEl.textContent = "Sum: " + sum;
-    //Dealer
+
+    // Dealer Cards (Only Show First Card)
     let dealerEl = document.getElementById("dealer-el");
     dealerEl.textContent = "Dealer's Cards: " + dealerCards[0] + ", hidden";
+
+    // Dealer Sum (Only Show First Card's Value)
+    let dealerSumEl = document.getElementById("dealerSum-el");
+    dealerSumEl.textContent = "Dealer's Sum: " + dealerCards[0]; // Only show first card's value
+
+    // Game Message
     if (sum <= 20) {
         message = "Do you want to draw a new card?";
     } else if (sum === 21) {
@@ -55,6 +62,7 @@ function renderGame() {
     }
     messageEl.textContent = message;
 }
+
 function showAceChoices() {
     document.getElementById("choose-ace-btn").style.display = "none";
     document.getElementById("ace-1-btn").style.display = "block";
@@ -92,11 +100,12 @@ function determineWinner() {
     } else {
         message = "It's a tie";
     }
+    isAlive = false;
     messageEl.textContent = message;
 }
 
     function newCard() {
-    if (isAlive === true && hasBlackJack === false) {
+    if (isAlive && !hasBlackJack) {
       let card = getRandomCard();
         if (card === 1) {
             document.getElementById("choose-ace-btn").style.display = "block";
@@ -104,9 +113,13 @@ function determineWinner() {
         }
     sum += card;
     cards.push(card);
-    renderGame();  
+    renderGame(); 
+        if (sum > 21) {
+            isAlive = false;
+            messageEl.textContent = "You busted!";
     }
 }
+    }
 function playerStand() {
     if (isAlive){
     dealerPlay();
