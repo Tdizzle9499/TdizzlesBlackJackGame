@@ -109,7 +109,9 @@ function determineWinner() {
     }
 }
 function playerStand() {
+    if (isAlive){
     dealerPlay();
-}
+} else {
+        messageEl.textContent = "You busted!" 
 
 
