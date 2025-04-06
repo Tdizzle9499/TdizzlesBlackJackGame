@@ -7,16 +7,16 @@ let messageEl = document.getElementById("message-el");
 let sumEl = document.getElementById("sum-el");
 let cardsEl = document.getElementById("cards-el");
 function getRandomCard() {
-    let randomCard = Math.floor(Math.random()*11) + 1;
+    let randomCard = Math.floor(Math.random() * 13) + 1; // Simulating all possible cards
     if (randomCard > 10) {
-        return 10;
+        return 10; // Face cards are worth 10
     } else if (randomCard === 1) {
-        return 11;
+        return 1; // Player will choose between 1 or 11
     } else {
         return randomCard;
     }
-    return randomCard;
 }
+
 function startGame() {
     isAlive = true;
     let firstCard = getRandomCard();
@@ -42,13 +42,31 @@ function renderGame() {
     }
     messageEl.textContent = message;
 }
+function showAceChoices() {
+    document.getElementById("choose-ace-btn").style.display = "none";
+    document.getElementById("ace-1-btn").style.display = "block";
+    document.getElementById("ace-11-btn").style.display = "block";
+}
+
+function setAceValue(value) {
+    sum += value;
+    cards.push(value);
+    document.getElementById("ace-1-btn").style.display = "none";
+    document.getElementById("ace-11-btn").style.display = "none";
+    document.getElementById("choose-ace-btn").style.display = "none";
+renderGame(); 
+}
+
 
 function newCard() {
     if (isAlive === true && hasBlackJack === false) {
       let card = getRandomCard();
+        if (card === 1) {
+            document.getElementById("choose-ace-btn").style.display = "block";
+        return;
+        }
     sum += card;
     cards.push(card);
     renderGame();  
     }
 }
-
