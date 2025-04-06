@@ -4,7 +4,7 @@ background-image: url("cardtable.jpg");
 background-size:cover;
 background-position: center;
 text-align: center;
-font-size: 3em;
+font-size: 1.7em;
     color: white;
 font-weight: bold;
 }
@@ -13,17 +13,19 @@ h1 {
 }
 #message-el {
     font-style: italic;
+font-weight: bolder;
+    font-size: 2em
 }
 #button-container {
     display: flex;
-    gap: 10px;
+    gap: 2px;
     justify-content: center;
     flex-wrap: wrap;
 }
 button {
     color: #016f32;
-     width: 350px;
-    height: 60px;
+     width: 150px;
+    height: 40px;
     background: goldenrod;
     font-size: .6em;
     padding-top: 20px;
