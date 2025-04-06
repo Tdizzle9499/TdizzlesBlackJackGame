@@ -14,6 +14,12 @@ h1 {
 #message-el {
     font-style: italic;
 }
+#button-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
 button {
     color: #016f32;
      width: 350px;
@@ -24,5 +30,4 @@ button {
     padding-bottom: 50px;
     font-weight: bold;
     border-radius: 10px;
-    margin-bottom: 4px
 }
