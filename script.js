@@ -6,14 +6,6 @@ let message = "";
 let messageEl = document.getElementById("message-el");
 let sumEl = document.getElementById("sum-el");
 let cardsEl = document.getElementById("cards-el");
-let player = {
- name: "John",
- chips: 145 
-};
-let playerName = "John";
-let playerChips = 145;
-let playerEl = document.getElementById("player-el");
-playerEl.textContent = playerName + ": $" + playerChips;
 function getRandomCard() {
     let randomCard = Math.floor(Math.random()*11) + 1;
     if (randomCard > 10) {
