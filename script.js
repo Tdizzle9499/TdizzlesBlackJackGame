@@ -112,6 +112,7 @@ function playerStand() {
     if (isAlive){
     dealerPlay();
 } else {
-        messageEl.textContent = "You busted!" 
+        messageEl.textContent = "You busted!";
+    }
 
 
