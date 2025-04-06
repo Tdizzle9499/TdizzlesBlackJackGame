@@ -1,4 +1,3 @@
-//player
 let cards = [];
 let sum = 0;
 let hasBlackJack = false;
@@ -113,6 +112,6 @@ function playerStand() {
     dealerPlay();
 } else {
         messageEl.textContent = "You busted!";
-    }
-
+}
+}
 
