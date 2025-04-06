@@ -10,30 +10,56 @@ let cardsEl = document.getElementById("cards-el");
 let dealerCards = [];
 let dealerSum = 0;
 function getRandomCard() {
-    let randomCard = Math.floor(Math.random() * 10) + 1; // Simulating all possible cards
+    let randomCard = Math.floor(Math.random() * 13) + 1; // Simulating all cards including face cards
+
     if (randomCard > 10) {
         return 10; // Face cards are worth 10
     } else if (randomCard === 1) {
-        return 1; // Player will choose between 1 or 11
+        return "Ace"; // Player will choose between 1 or 11
     } else {
         return randomCard;
     }
 }
 
+
 function startGame() {
     isAlive = true;
-    //player
+    hasBlackJack = false;
+
+    // Player cards
     let firstCard = getRandomCard();
     let secondCard = getRandomCard();
+
     cards = [firstCard, secondCard];
-    sum = firstCard + secondCard;
-    //Dealer
+
+    // Check if an Ace was drawn, then show choice buttons
+    if (firstCard === "Ace" || secondCard === "Ace") {
+        document.getElementById("ace-1-btn").style.display = "block";
+        document.getElementById("ace-11-btn").style.display = "block";
+    }
+
+    // Calculate sum, ignoring Ace (since player will choose its value)
+    sum = 0;
+    for (let i = 0; i < cards.length; i++) {
+        if (cards[i] !== "Ace") {
+            sum += cards[i];
+        }
+    }
+
+    // Dealer cards (Automatically assigns Ace values)
     let dealerFirstCard = getRandomCard();
     let dealerSecondCard = getRandomCard();
+
+    if (dealerFirstCard === "Ace") dealerFirstCard = (dealerSum + 11 <= 21) ? 11 : 1;
+    if (dealerSecondCard === "Ace") dealerSecondCard = (dealerSum + 11 <= 21) ? 11 : 1;
+
     dealerCards = [dealerFirstCard, dealerSecondCard];
     dealerSum = dealerFirstCard + dealerSecondCard;
+
     renderGame();
 }
+
+
 function renderGame() {
     // Player Cards
     cardsEl.textContent = "Cards: ";
@@ -68,28 +94,35 @@ function showAceChoices() {
     document.getElementById("ace-1-btn").style.display = "block";
     document.getElementById("ace-11-btn").style.display = "block";
 }
-
 function setAceValue(value) {
-    sum += value;
-    cards.push(value);
+    let aceIndex = cards.indexOf("Ace");
+    if (aceIndex !== -1) {
+        cards[aceIndex] = value; // Replace "Ace" with 1 or 11
+        sum += value; // Add selected value to total sum
+    }
+
+    // Hide selection buttons
+    document.getElementById("choose-ace-btn").style.display = "none";
     document.getElementById("ace-1-btn").style.display = "none";
     document.getElementById("ace-11-btn").style.display = "none";
-    document.getElementById("choose-ace-btn").style.display = "none";
-renderGame(); 
+
+    renderGame();
 }
+
+
 function dealerPlay() {
     while (dealerSum < 17) {
         let card = getRandomCard();
 
-        // Convert Ace to 11 if it doesn't bust the dealer
-        if (card === 1 && dealerSum + 11 <= 21) {
-            card = 11;
+        // Proper Ace Handling
+        if (card === "Ace") {
+            card = (dealerSum + 11 <= 21) ? 11 : 1;
         }
 
         dealerCards.push(card);
         dealerSum += card;
     }
-    
+
     let dealerEl = document.getElementById("dealer-el");
     dealerEl.textContent = "Dealer's Cards: " + dealerCards.join(" ");
 
@@ -98,6 +131,9 @@ function dealerPlay() {
 
     determineWinner();
 }
+
+
+
 
 
 function determineWinner() {
@@ -113,23 +149,50 @@ function determineWinner() {
     isAlive = false;
     messageEl.textContent = message;
 }
-
-    function newCard() {
+function newCard() {
     if (isAlive && !hasBlackJack) {
-      let card = getRandomCard();
-        if (card === 1) {
+        let card = getRandomCard();
+
+        if (card === "Ace") {
+            cards.push("Ace"); // Temporarily show "Ace"
+            renderGame(); // Update UI to allow selection
+
+            // Show buttons for 1 or 11 choice
             document.getElementById("choose-ace-btn").style.display = "block";
-        return;
+            document.getElementById("ace-1-btn").style.display = "block";
+            document.getElementById("ace-11-btn").style.display = "block";
+            
+            return; // Wait for player choice
         }
-    sum += card;
-    cards.push(card);
-    renderGame(); 
+
+        sum += card;
+        cards.push(card);
+        renderGame();
+
         if (sum > 21) {
             isAlive = false;
             messageEl.textContent = "You busted!";
+        }
     }
 }
+
+function setAceValue(value) {
+    let aceIndex = cards.indexOf("Ace");
+    if (aceIndex !== -1) {
+        cards[aceIndex] = value; // Replace "Ace" with chosen value
+        sum += value; // Correctly update sum
     }
+
+    // Hide selection buttons
+    document.getElementById("choose-ace-btn").style.display = "none";
+    document.getElementById("ace-1-btn").style.display = "none";
+    document.getElementById("ace-11-btn").style.display = "none";
+
+    renderGame();
+}
+
+
+
 function playerStand() {
     if (isAlive){
     dealerPlay();
