@@ -1,0 +1,28 @@
+body {
+    font-family: 'trebuchet MS', 'lucida Sans unicode', 'lucida Grande', sans-serif; 
+background-image: url("cardtable.jpg");  
+background-size:cover;
+background-position: center;
+text-align: center;
+font-size: 3em;
+    color: white;
+font-weight: bold;
+}
+h1 {
+    color: goldenrod
+}
+#message-el {
+    font-style: italic;
+}
+button {
+    color: #016f32;
+     width: 350px;
+    height: 60px;
+    background: goldenrod;
+    font-size: .6em;
+    padding-top: 20px;
+    padding-bottom: 50px;
+    font-weight: bold;
+    border-radius: 10px;
+    margin-bottom: 4px
+}
