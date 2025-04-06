@@ -10,8 +10,8 @@ let player = {
  name: "name",
  chips: 0 
 };
-let playerName = "John";
-let playerChips = 145;
+let playerName = "Will be added soon " + Name;
+let playerChips = chips;
 let playerEl = document.getElementById("player-el");
 playerEl.textContent = playerName + ": $" + playerChips;
 function getRandomCard() {
