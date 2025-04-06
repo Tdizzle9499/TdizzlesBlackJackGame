@@ -10,7 +10,7 @@ let cardsEl = document.getElementById("cards-el");
 let dealerCards = [];
 let dealerSum = 0;
 function getRandomCard() {
-    let randomCard = Math.floor(Math.random() * 13) + 1; // Simulating all possible cards
+    let randomCard = Math.floor(Math.random() * 10) + 1; // Simulating all possible cards
     if (randomCard > 10) {
         return 10; // Face cards are worth 10
     } else if (randomCard === 1) {
@@ -77,19 +77,29 @@ function setAceValue(value) {
     document.getElementById("choose-ace-btn").style.display = "none";
 renderGame(); 
 }
-
 function dealerPlay() {
     while (dealerSum < 17) {
         let card = getRandomCard();
+
+        // Convert Ace to 11 if it doesn't bust the dealer
+        if (card === 1 && dealerSum + 11 <= 21) {
+            card = 11;
+        }
+
         dealerCards.push(card);
-    dealerSum += card;
-}
+        dealerSum += card;
+    }
+    
     let dealerEl = document.getElementById("dealer-el");
     dealerEl.textContent = "Dealer's Cards: " + dealerCards.join(" ");
+
     let dealerSumEl = document.getElementById("dealerSum-el");
     dealerSumEl.textContent = "Dealer's Sum: " + dealerSum;
-determineWinner();
+
+    determineWinner();
 }
+
+
 function determineWinner() {
     if (dealerSum > 21) {
         message = "Dealer busted! You win";
