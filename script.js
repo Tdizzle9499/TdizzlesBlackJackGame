@@ -177,10 +177,11 @@ function newCard() {
 }
 
 function setAceValue(value) {
-    let aceIndex = cards.indexOf("Ace");
-    if (aceIndex !== -1) {
-        cards[aceIndex] = value; // Replace "Ace" with chosen value
-        sum += value; // Correctly update sum
+    for (let i = 0; i < cards.length; i++) {
+        if (cards[i] === "Ace") {
+            cards[i] = value; // Replace ALL occurrences of "Ace"
+            sum += value; // Update sum accordingly
+        }
     }
 
     // Hide selection buttons
@@ -190,6 +191,7 @@ function setAceValue(value) {
 
     renderGame();
 }
+
 
 
 
