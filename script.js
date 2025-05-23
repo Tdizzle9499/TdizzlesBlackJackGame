@@ -9,6 +9,9 @@ let cardsEl = document.getElementById("cards-el");
 //dealer
 let dealerCards = [];
 let dealerSum = 0;
+//betting
+let balance = 100;
+let betAmount = 0;
 function getRandomCard() {
     let randomCard = Math.floor(Math.random() * 13) + 1; // Simulating all cards including face cards
 
@@ -31,7 +34,9 @@ function startGame() {
     let secondCard = getRandomCard();
 
     cards = [firstCard, secondCard];
-
+    document.getElementById("ace-1-btn").style.display = "none";
+    document.getElementById("ace-11-btn").style.display ="none";
+    
     // Check if an Ace was drawn, then show choice buttons
     if (firstCard === "Ace" || secondCard === "Ace") {
         document.getElementById("ace-1-btn").style.display = "block";
@@ -45,8 +50,7 @@ function startGame() {
             sum += cards[i];
         }
     }
-
-    // Dealer cards (Automatically assigns Ace values)
+ // Dealer cards (Automatically assigns Ace values)
     let dealerFirstCard = getRandomCard();
     let dealerSecondCard = getRandomCard();
 
@@ -57,6 +61,28 @@ function startGame() {
     dealerSum = dealerFirstCard + dealerSecondCard;
 
     renderGame();
+}
+
+function placeBet() {
+    let betInput = document.getElementById("bet-input").value;
+
+    // Prevent betting when balance is zero
+    if (balance <= 0) {
+        alert("You're out of money! Reload page to play again.");
+        return;
+    }
+
+    // Validate bet amount
+    if (betInput > 0 && betInput <= balance) {
+        betAmount = parseInt(betInput);
+        balance -= betAmount;
+        document.getElementById("balance-el").textContent = "Balance: $" + balance;
+        startGame(); // Start game after bet
+} else if (betInput === 0) {
+  alert("You can not place a bet of $0");  
+} else {
+        alert("Invalid bet! Check your balance.");
+    }
 }
 
 
@@ -90,7 +116,6 @@ function renderGame() {
 }
 
 function showAceChoices() {
-    document.getElementById("choose-ace-btn").style.display = "none";
     document.getElementById("ace-1-btn").style.display = "block";
     document.getElementById("ace-11-btn").style.display = "block";
 }
@@ -102,7 +127,6 @@ function setAceValue(value) {
     }
 
     // Hide selection buttons
-    document.getElementById("choose-ace-btn").style.display = "none";
     document.getElementById("ace-1-btn").style.display = "none";
     document.getElementById("ace-11-btn").style.display = "none";
 
@@ -137,18 +161,22 @@ function dealerPlay() {
 
 
 function determineWinner() {
-    if (dealerSum > 21) {
-        message = "Dealer busted! You win";
-    } else if (sum > dealerSum) {
-        message = "You win";
+    if (dealerSum > 21 || sum > dealerSum) {
+        message = "You win!";
+        balance += betAmount * 2; // Double payout
     } else if (sum < dealerSum) {
         message = "Dealer wins!";
+        // No refund, bet is lost
     } else {
-        message = "It's a tie";
+        message = "It's a tie!";
+        balance += betAmount; // Refund
     }
+
     isAlive = false;
     messageEl.textContent = message;
+    document.getElementById("balance-el").textContent = "Balance: $" + balance;
 }
+
 function newCard() {
     if (isAlive && !hasBlackJack) {
         let card = getRandomCard();
@@ -158,10 +186,8 @@ function newCard() {
             renderGame(); // Update UI to allow selection
 
             // Show buttons for 1 or 11 choice
-            document.getElementById("choose-ace-btn").style.display = "block";
             document.getElementById("ace-1-btn").style.display = "block";
             document.getElementById("ace-11-btn").style.display = "block";
-            
             return; // Wait for player choice
         }
 
@@ -185,7 +211,6 @@ function setAceValue(value) {
     }
 
     // Hide selection buttons
-    document.getElementById("choose-ace-btn").style.display = "none";
     document.getElementById("ace-1-btn").style.display = "none";
     document.getElementById("ace-11-btn").style.display = "none";
 
