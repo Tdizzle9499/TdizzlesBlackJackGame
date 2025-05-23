@@ -14,7 +14,8 @@ h1 {
 #message-el {
     font-style: italic;
 font-weight: bolder;
-    font-size: 2em
+    font-size: 30px;
+    color: goldenrod;
 }
 #button-container {
     display: flex;
@@ -24,8 +25,8 @@ font-weight: bolder;
 }
 button {
     color: #016f32;
-     width: 150px;
-    height: 40px;
+     width: 100px;
+    height: 20px;
     background: goldenrod;
     font-size: .6em;
     padding-top: 20px;
